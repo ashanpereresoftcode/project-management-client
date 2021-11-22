@@ -1,0 +1,50 @@
+<div class="dashboard-container">
+    <mat-drawer-container class="dashboard-container__drawer-container">
+        <mat-drawer #drawer class="mat-elevation-z3 dashboard-container__drawer-container--drawer" mode="side" opened>
+            <perfect-scrollbar>
+                <figure class="p-8">
+                    <div class="flex justify-center">
+                        <img [src]="user.profilePic" alt="profile" class="user-profile rounded-full w-40 h-40">
+                    </div>
+                    <div class="pt-6 text-center">
+                        <blockquote>
+                            <div class="font-bold">{{this.user.firstName}} {{this.user.lastName}}</div>
+                            <div class="font-medium">{{designations[this.user.designation]}}</div>
+                            <p class="text-sm font-semibold">
+                                “Tailwind CSS is the only framework that I've seen scale
+                                on large teams.”
+                            </p>
+                        </blockquote>
+                    </div>
+                </figure>
+
+                <mat-nav-list [disableRipple]="true" *ngIf="navigationItems">
+                    <menu-items *ngFor="let item of navigationItems" [item]="item"></menu-items>
+                </mat-nav-list>
+            </perfect-scrollbar>
+        </mat-drawer>
+        <mat-drawer-content>
+            <mat-toolbar color="primary" class="mat-elevation-z3">
+                <div class="flex justify-between w-screen">
+                    <div>
+                        <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon"
+                            (click)="drawer.toggle()">
+                            <mat-icon>menu</mat-icon>
+                        </button>
+                        <span class="text-lg font-medium uppercase">Project Management Application</span>
+                    </div>
+                    <div>
+                        <span class="example-spacer"></span>
+                        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon"
+                            matTooltip="Logout" (click)="loggOut()">
+                            <mat-icon>logout</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </mat-toolbar>
+            <div class="dashboard-container__body-content p-8">
+                <router-outlet></router-outlet>
+            </div>
+        </mat-drawer-content>
+    </mat-drawer-container>
+</div>

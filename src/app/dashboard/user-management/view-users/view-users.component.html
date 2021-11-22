@@ -1,0 +1,34 @@
+<div class="flex">
+    <div class="flex justify-between w-full">
+        <span class="text-3xl uppercase">User Management</span>
+        <div class="button-content">
+            <button mat-raised-button (click)="exportDataToExcel()">
+                <mat-icon class="mr-1">content_paste</mat-icon>
+                <span class="text-xl">Export To Excel</span>
+            </button>
+            <button class="ml-1" mat-raised-button (click)="exportDataToPdf()">
+                <mat-icon class="mr-1">picture_as_pdf</mat-icon>
+                <span class="text-xl">Export To Pdf</span>
+            </button>
+            <button class="ml-1" mat-raised-button (click)="fileUpload.click()">
+                <mat-icon class="mr-1">backup</mat-icon>
+                <span class="text-xl">Upload Users</span>
+            </button>
+            <button class="ml-1" mat-raised-button (click)="openModal()">
+                <mat-icon class="mr-1">add</mat-icon>
+                <span class="text-xl">Add User</span>
+            </button>
+            <input type="file" class="file-input"
+                accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                (change)="onFileSelected($event)" #fileUpload>
+        </div>
+    </div>
+</div>
+
+<div class="outer-div pt-8">
+    <div class="grid-wrapper w-full">
+        <ag-grid-angular style="height: 450px;" [rowData]="rowData" [ngClass]="'ag-theme-material'"
+            [columnDefs]="columnDefs" (gridReady)="onGridReady($event)" [rowSelection]="'multiple'">
+        </ag-grid-angular>
+    </div>
+</div>

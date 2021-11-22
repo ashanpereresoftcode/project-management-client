@@ -1,0 +1,65 @@
+.sub-table {
+    width: 100%;
+}
+
+.mat-column-demo-weight {
+    font-style: italic;
+}
+
+.mat-column-demo-symbol {
+    width: 32px;
+    text-align: center;
+    font-weight: bold;
+}
+
+table {
+    width: 100%;
+
+    tr {
+        td {
+            font-size: 15px !important;
+        }
+    }
+}
+
+tr.detail-row {
+    height: 0;
+}
+
+.add-border-top {
+    border-top-width: 1px;
+    border-bottom-style: solid;
+}
+.rm-border-bottom {
+    border-bottom: none !important;
+}
+
+.element-detail {
+    overflow: hidden;
+    display: flex;
+    width: 100%;
+}
+
+.inner-table {
+    width: 100%;
+}
+
+.inner-table mat-form-field {
+    margin-top: 15px;
+    width: 100%;
+}
+
+.rate-skill {
+    margin-left: 1.2rem;
+}
+
+.expanded {
+    .sub-table {
+        td,
+        tr,
+        th {
+            border: 1px solid black !important;
+            text-align: center;
+        }
+    }
+}

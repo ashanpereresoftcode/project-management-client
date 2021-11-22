@@ -1,0 +1,17 @@
+.auth-container {
+    height: 100vh;
+    display: grid;
+    grid-template-columns: [auth-content-starts]25%[auth-content-ends auth-content-background-starts] 75% [auth-content-background-ends];
+    grid-template-rows: auto;
+
+    &__auth-content {
+        grid-column: auth-content-starts/auth-content-ends;
+    }
+
+    &__background {
+        grid-column: auth-content-background-starts/auth-content-background-ends;
+        background-image: url('https://wallpaper.dog/large/20407840.png');
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+}

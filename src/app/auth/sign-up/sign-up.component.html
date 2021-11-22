@@ -1,0 +1,69 @@
+<div class="flex justify-between items-center">
+    <h2>Register User</h2>
+    <button mat-icon-button (click)="closeModal()">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+
+<!-- <perfect-scrollbar>
+</perfect-scrollbar> -->
+<div class="overflow-auto pt-4" [formGroup]="userForm">
+    <div class="flex">
+        <mat-form-field class="flex-1" appearance="outline">
+            <mat-label>User Name</mat-label>
+            <input matInput placeholder="User Name" formControlName="userName">
+            <mat-error *ngIf="userForm?.get('userName')?.hasError('required')">This field is required</mat-error>
+        </mat-form-field>
+        <mat-form-field class="flex-1 pl-6" appearance="outline">
+            <mat-label>First Name</mat-label>
+            <input matInput placeholder="First Name" formControlName="firstName">
+            <mat-error *ngIf="userForm?.get('firstName')?.hasError('required')">This field is required</mat-error>
+        </mat-form-field>
+    </div>
+    <div class="flex">
+        <mat-form-field class="flex-1" appearance="outline">
+            <mat-label>lastName</mat-label>
+            <input matInput placeholder="lastName" formControlName="lastName">
+        </mat-form-field>
+        <mat-form-field class="flex-1 pl-6" appearance="outline">
+            <mat-label>User Email</mat-label>
+            <input matInput placeholder="User Email" formControlName="userEmail">
+            <mat-error *ngIf="userForm?.get('userEmail')?.hasError('required')">This field is required</mat-error>
+        </mat-form-field>
+    </div>
+    <div class="flex">
+        <mat-form-field class="flex-1" appearance="outline" *ngIf="!user">
+            <mat-label>password</mat-label>
+            <input matInput placeholder="password" formControlName="password">
+            <mat-error *ngIf="userForm?.get('password')?.hasError('required')">This field is required</mat-error>
+        </mat-form-field>
+        <mat-form-field class="flex-1 pl-6" appearance="outline">
+            <mat-label>Contact</mat-label>
+            <input matInput placeholder="Contact" formControlName="contact">
+            <mat-error *ngIf="userForm?.get('contact')?.hasError('required')">This field is required</mat-error>
+        </mat-form-field>
+    </div>
+    <div class="flex">
+        <mat-form-field class="flex-1" appearance="outline">
+            <mat-label>Project Type</mat-label>
+            <mat-select id="projectType" formControlName="projectType">
+                <mat-option value="integritas">Integritas</mat-option>
+                <mat-option value="non-integritas">Non-Integritas</mat-option>
+            </mat-select>
+            <mat-error *ngIf="userForm?.get('projectType')?.hasError('required')">This field is required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="flex-1 pl-6" appearance="outline">
+            <mat-label>Designation</mat-label>
+            <mat-select id="designation" formControlName="designation" placeholder="Designation">
+                <mat-option *ngFor="let designation of designations" [value]="designation?.key">
+                    {{designation?.viewValue}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="userForm?.get('designation')?.hasError('required')">This field is required</mat-error>
+        </mat-form-field>
+    </div>
+</div>
+
+<div class="flex justify-end">
+    <button mat-raised-button color="primary" (click)="saveUser()">{{ user ? 'Update' : 'Save' }}</button>
+</div>
