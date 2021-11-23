@@ -12,7 +12,7 @@
 
         display: flex;
         align-items: center;
-        justify-content: start;
+        justify-content: flex-start;
 
         &:not(:first-child) {
             margin-top: 1rem;

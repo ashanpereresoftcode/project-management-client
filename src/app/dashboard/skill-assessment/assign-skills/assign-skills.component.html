@@ -28,7 +28,7 @@
     </div>
 </mat-card>
 
-<div class="mt-3 elevation-z5">
+<div class="mt-3 mat-elevation-z5 mb-3">
     <table mat-table [dataSource]="dataSource" multiTemplateDataRows>
         <ng-container matColumnDef="index">
             <th mat-header-cell *matHeaderCellDef> id# </th>
@@ -61,17 +61,16 @@
             </td>
         </ng-container>
 
-        <ng-container matColumnDef="user-email">
-            <th mat-header-cell *matHeaderCellDef> Email </th>
-            <td mat-cell *matCellDef="let element" [ngClass]="{'add-border-top': element?.expanded}">
-                {{element?.userEmail}}
-            </td>
-        </ng-container>
-
         <ng-container matColumnDef="designation">
             <th mat-header-cell *matHeaderCellDef> Designation </th>
             <td mat-cell *matCellDef="let element" [ngClass]="{'add-border-top': element?.expanded}">
                 {{element?.designation}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="skill-index">
+            <th mat-header-cell *matHeaderCellDef> Skill Index </th>
+            <td mat-cell *matCellDef="let element" [ngClass]="{'add-border-top': element?.expanded}">
+                {{getSkillIndex(element?.assignedSkills)}} </td>
         </ng-container>
 
         <ng-container matColumnDef="action">
@@ -103,9 +102,9 @@
                             <td mat-cell *matCellDef="let assignedSkill"> {{getRatingCard(+assignedSkill?.rating)}}
                             </td>
                         </ng-container>
-                        <ng-container matColumnDef="comments">
-                            <th mat-header-cell *matHeaderCellDef> Comments </th>
-                            <td mat-cell *matCellDef="let assignedSkill"> {{assignedSkill?.comments}} </td>
+                        <ng-container matColumnDef="status">
+                            <th mat-header-cell *matHeaderCellDef> Rate Status </th>
+                            <td mat-cell *matCellDef="let assignedSkill"> {{getStatus(+assignedSkill?.rating)}} </td>
                         </ng-container>
                         <ng-container matColumnDef="action">
                             <th mat-header-cell *matHeaderCellDef> Action </th>

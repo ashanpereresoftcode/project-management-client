@@ -55,10 +55,15 @@ tr.detail-row {
 
 .expanded {
     .sub-table {
+
+        th{
+            font-weight: bolder;
+        }
+
         td,
         tr,
         th {
-            border: 1px solid black !important;
+            border: .8px solid rgb(150, 150, 150) !important;
             text-align: center;
         }
     }

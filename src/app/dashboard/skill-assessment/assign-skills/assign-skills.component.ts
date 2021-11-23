@@ -17,7 +17,6 @@ import { UserNameCellRendererComponent } from './cell-renderers/user-name-cell-r
 import { UserDesignationCellRendererComponent } from './cell-renderers/user-designation-cell-renderer/user-designation-cell-renderer.component';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatTableDataSource } from '@angular/material/table';
-
 @Component({
   selector: 'app-assign-skills',
   templateUrl: './assign-skills.component.html',
@@ -35,10 +34,10 @@ export class AssignSkillsComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   @BlockUI() blockUI!: NgBlockUI;
-  displayedColumns: string[] = ['index', 'empty', 'name', 'user-email', 'designation', 'action'];
+  displayedColumns: string[] = ['index', 'empty', 'name', 'designation', 'skill-index', 'action'];
   dataSource = new MatTableDataSource<any>();
 
-  skillColumns: string[] = ['skill', 'rate-point', 'rate-card', 'comments', 'action'];
+  skillColumns: string[] = ['skill', 'rate-point', 'rate-card', 'status', 'action'];
 
   skills: any[] = [];
   users: any[] = [];
@@ -101,6 +100,31 @@ export class AssignSkillsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   subGroupsAvailable = (index: any, item: any): boolean => {
     return item?.assignedSkills?.length > 0;
+  }
+
+  getStatus = (rate: number): string => { 
+    let ratingCard: string = "";
+    switch (rate) {
+      case 0:
+        ratingCard = "N/A";
+        break;
+      case 1:
+        ratingCard = "Immediately Need Training";
+        break;
+      case 2:
+        ratingCard = "Immediately Need Training";
+        break;
+      case 3:
+        ratingCard = "Need Training";
+        break;
+      case 4:
+        ratingCard = "Deployable for Project";
+        break;
+      case 5:
+        ratingCard = "Deployable for Project";
+        break;
+    }
+    return ratingCard;
   }
 
   getRatingCard = (rate: number): string => {
@@ -261,6 +285,11 @@ export class AssignSkillsComponent implements OnInit, AfterViewInit, OnDestroy {
       height: 'auto',
       data: { user: selectedUser }
     });
+  }
+
+  getSkillIndex = (assignedSkills: any[]) => {
+    const ratings = assignedSkills.map(x => x.rating);
+    return (ratings.reduce((a, b) => (+a) + (+b), 0)) / assignedSkills.length;
   }
 
   ngOnDestroy() {
