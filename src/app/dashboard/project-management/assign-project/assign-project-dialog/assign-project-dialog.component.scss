@@ -17,7 +17,7 @@ textarea {
         grid-column: 2/-1;
         grid-row: 1/2;
         position: relative;
-        top: 2rem;   
+        top: 2rem;
     }
 }
 
@@ -32,8 +32,13 @@ textarea {
     justify-content: flex-end;
 }
 
-.empty-records{
+.empty-records {
     position: absolute;
     top: 23%;
     left: 43%;
+}
+
+.allocated-hours {
+    position: relative;
+    bottom: 4px;
 }

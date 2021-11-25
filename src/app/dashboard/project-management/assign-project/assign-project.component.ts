@@ -9,15 +9,29 @@ import { ProjectAllocationComponent } from './cell-renderers/project-allocation/
 import { ProjectNameComponent } from './cell-renderers/project-name/project-name.component';
 import { AssignProjectActionComponent } from './cell-renderers/assign-project-action/assign-project-action.component';
 import { AssignedProjectsReportComponent } from './assigned-projects-report/assigned-projects-report.component';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { MatTableDataSource } from '@angular/material/table';
+import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-assign-project',
   templateUrl: './assign-project.component.html',
-  styleUrls: ['./assign-project.component.scss']
+  styleUrls: ['./assign-project.component.scss'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
 export class AssignProjectComponent implements OnInit, OnDestroy {
   @BlockUI() blockUI!: NgBlockUI;
+  displayedColumns: string[] = ['index', 'empty', 'name', 'designation', 'allocated-hours', 'fts', 'action'];
+  dataSource: any = new MatTableDataSource<any>();
+
+  skillColumns: string[] = ['project', 'rate-card', 'status', 'allocated-hours', 'action',];
 
   projectDetails: any[] = [];
 
@@ -35,7 +49,8 @@ export class AssignProjectComponent implements OnInit, OnDestroy {
   constructor(
     private matDialog: MatDialog,
     private authService: AuthService,
-    private projectManagementService: ProjectManagementService
+    private projectManagementService: ProjectManagementService,
+    private toastrService: ToastrService,
   ) {
     this.columnDefs = [
       {
@@ -86,6 +101,12 @@ export class AssignProjectComponent implements OnInit, OnDestroy {
     this.authService.fetchUsers().subscribe(userResult => {
       if (userResult) {
         this.users = userResult.result;
+        const dataSet = this.users.filter(x => x.assignedProjects && x.assignedProjects.length > 0);
+        dataSet.forEach((u: any, index: number) => {
+          u['index'] = index + 1;
+          u['expanded'] = false;
+        })
+        this.dataSource = dataSet;
       }
     }, error => {
       console.log(error);
@@ -123,24 +144,68 @@ export class AssignProjectComponent implements OnInit, OnDestroy {
     const projectAssignDialog = this.matDialog.open(AssignProjectDialogComponent, {
       width: '80%',
       height: 'auto',
-      data: { user: this.selectedUser }
     });
 
     this.subscriptions.push(
       projectAssignDialog.componentInstance.afterSave.subscribe((res: any) => {
-        const assignmentDetail = res?.result?.assignmentDetail;
-        assignmentDetail.project = res?.project;
-        this.rowData.push(assignmentDetail);
-        this.gridApi.setRowData(this.rowData);
+        // const assignmentDetail = res?.result?.assignmentDetail;
+        // assignmentDetail.project = res?.project;
+        this.fetchUsers();
+        // this.rowData.push(assignmentDetail);
+        // this.gridApi.setRowData(this.rowData);
       })
     )
   }
 
-  openProjectAssignmentReport = () => {
+  openProjectAssignmentReport = (user: any) => {
     this.matDialog.open(AssignedProjectsReportComponent, {
       width: '60%',
       height: 'auto',
-      data: { user: this.selectedUser }
+      data: { user: user }
+    });
+  }
+
+  subGroupsAvailable = (index: any, item: any): boolean => {
+    return item?.assignedProjects?.length > 0;
+  }
+
+  totalAllocatedHours = (assignedProjects: any[]) => {
+    return assignedProjects.map(x => x.allocationHours).reduce((a: number, b: number) => a + b, 0);
+  }
+
+  getTotalFts = (user: any): number => {
+    if (user && user?.assignedProjects) {
+      const totalHours = user?.assignedProjects.map((x: any) => x.allocationHours).reduce((a: number, b: number) => a + b, 0);
+      return (totalHours / 8) as number;
+    }
+    return 0;
+  }
+
+  deleteHandler = (assignedProject: any) => {
+    this.blockUI.start('Deleting....');
+    const appIds: string[] = [].concat(assignedProject?._id);
+    if (appIds && appIds.length > 0) {
+      this.proceedDelete(assignedProject, appIds);
+    } else {
+      this.toastrService.error("Please select items to delete.", "Error");
+      this.blockUI.stop();
+    }
+  }
+
+  proceedDelete = (project: any, projectIds: string[]) => {
+    let form = new FormData();
+    form.append("assignedProjectIds", JSON.stringify(projectIds));
+    form.append("userId", JSON.stringify(project?.userId));
+
+    this.projectManagementService.deleteAssignedProjects(form).subscribe((deletedResult: any) => {
+      if (deletedResult) {
+        this.toastrService.success('Successfully deleted.', 'Success');
+        this.fetchUsers();
+      }
+      this.blockUI.stop();
+    }, () => {
+      this.toastrService.error('Failed to delete', 'Error');
+      this.blockUI.stop();
     });
   }
 

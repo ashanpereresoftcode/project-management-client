@@ -11,6 +11,22 @@
             <div [formGroup]="assignedProjectFormGroup">
                 <div class="flex mt-2">
                     <div class="flex flex-col w-full">
+                        <ng-select name="resource" id="resource" placeholder="Select Resource"
+                            formControlName="resource"
+                            [ngClass]="{'error-border': assignedProjectFormGroup.get('resource')?.touched && assignedProjectFormGroup.get('resource')?.errors?.required}"
+                            (change)="onResourceChange()">
+                            <ng-option *ngFor="let user of users" [value]="user">{{user?.userName}}
+                            </ng-option>
+                        </ng-select>
+                        <mat-error class="mt-1 font-size-1"
+                            *ngIf="assignedProjectFormGroup.get('resource')?.touched && assignedProjectFormGroup.get('resource')?.errors?.required">
+                            This field is required.
+                        </mat-error>
+                    </div>
+                </div>
+
+                <div class="flex mt-2">
+                    <div class="flex flex-col w-full">
                         <ng-select name="project" id="project" placeholder="Select Project" formControlName="project"
                             [ngClass]="{'error-border': assignedProjectFormGroup.get('project')?.touched && assignedProjectFormGroup.get('project')?.errors?.required}">
                             <ng-option *ngFor="let project of projectDetails" [value]="project">{{project?.projectName}}
@@ -21,9 +37,20 @@
                             This field is required.
                         </mat-error>
                     </div>
+                    <div class="ml-2 allocated-hours flex flex-col w-ful">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Allocation Hours</mat-label>
+                            <input matInput type="number" placeholder="Allocation Hours"
+                                formControlName="allocationHours" (change)="onAllocationChange()">
+                            <mat-error class="mt-1 font-size-1"
+                                *ngIf="assignedProjectFormGroup.get('allocationHours')?.touched && assignedProjectFormGroup.get('allocationHours')?.errors?.required">
+                                This field is required.
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
                 </div>
 
-                <div class="flex mt-2">
+                <div class="flex">
                     <div class="flex flex-col w-2/4">
                         <mat-form-field appearance="outline">
                             <mat-label>From Date</mat-label>
@@ -64,31 +91,44 @@
                     <div class="flex flex-col w-2/4">
                         <mat-form-field appearance="outline">
                             <mat-label>First Name</mat-label>
-                            <input matInput placeholder="First Name" disabled [value]="selectedUser.firstName">
+                            <input matInput placeholder="First Name" disabled [value]="selectedUser?.firstName">
                         </mat-form-field>
                     </div>
                     <div class="flex flex-col w-2/4 ml-1">
                         <mat-form-field appearance="outline">
                             <mat-label>Last Name</mat-label>
-                            <input matInput placeholder="Last Name" disabled [value]="selectedUser.lastName">
+                            <input matInput placeholder="Last Name" disabled [value]="selectedUser?.lastName">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="flex">
+                    <div class="flex flex-col w-full">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Designation</mat-label>
+                            <input matInput placeholder="Designation" disabled [value]="getDesignation()">
                         </mat-form-field>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="flex save-btn-actions">
-            <button mat-stroked-button [disabled]="assignedProjectFormGroup.invalid" (click)="onProjectAssign()">
-                {{isUpdate ? 'Update': 'Add'}}
-            </button>
 
-            <button mat-stroked-button class="ml-1" (click)="onClear()">
-                Clear
-            </button>
+            <div class="flex save-btn-actions">
+                <button mat-stroked-button [disabled]="assignedProjectFormGroup.invalid" (click)="onProjectAssign()">
+                    {{isUpdate ? 'Update': 'Add'}}
+                </button>
+
+                <button mat-stroked-button class="ml-1" (click)="onClear()">
+                    Clear
+                </button>
+            </div>
         </div>
+
         <div class="allocation-wrapper__view">
             <perfect-scrollbar *ngIf="selectedUser?.assignedProjects?.length > 0">
-                <assignee-card [selectedUser]="selectedUser" (onEdit)="onEdit($event)" (afterDeletion)="afterDeletion($event)"></assignee-card>
+                <assignee-card [selectedUser]="selectedUser" (onEdit)="onEdit($event)"
+                    (afterDeletion)="afterDeletion($event)"></assignee-card>
             </perfect-scrollbar>
-            <span class="empty-records" *ngIf="selectedUser?.assignedProjects && selectedUser?.assignedProjects?.length === 0">No records found</span>
+            <span class="empty-records"
+                *ngIf="!selectedUser || (selectedUser?.assignedProjects && selectedUser?.assignedProjects?.length === 0)">No
+                records found</span>
         </div>
     </div>

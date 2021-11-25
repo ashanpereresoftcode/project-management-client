@@ -8,6 +8,8 @@ import { ProjectNameComponent } from '../cell-renderers/project-name/project-nam
 import { ProjectAllocation } from '../../../../shared/enums/project-allocation.enum';
 import { FileService } from '../../../../shared/services/file.service';
 import * as moment from 'moment';
+import { FromDateComponent } from '../cell-renderers/from-date/from-date.component';
+import { ToDateComponent } from '../cell-renderers/to-date/to-date.component';
 
 @Component({
   selector: 'app-assigned-projects-report',
@@ -48,14 +50,14 @@ export class AssignedProjectsReportComponent implements OnInit {
       {
         headerName: 'From Date',
         suppressAutoSize: true,
-        field: 'fromDate',
         width: 120,
+        cellRendererFramework: FromDateComponent
       },
       {
         headerName: 'To Date',
         suppressAutoSize: true,
-        field: 'toDate',
         width: 120,
+        cellRendererFramework: ToDateComponent
       },
       {
         headerName: 'Comments',
@@ -92,11 +94,11 @@ export class AssignedProjectsReportComponent implements OnInit {
         'Project Code': x?.project?.projectCode,
         'From Date': moment(x?.fromDate).format('YYYY-MM-DD'),
         'To Date': moment(x?.toDate).format('YYYY-MM-DD'),
-        'Comments': x?.comments,
+        'Allocated Hours': x?.allocationHours,
         'Created On': moment(x?.createdOn).format('YYYY-MM-DD'),
       }
     });
-    const headers: any[] = ['Project Name', 'Project Code', 'From Date', 'To Date', 'Comments', 'Created On'];
+    const headers: any[] = ['Project Name', 'Project Code', 'From Date', 'To Date', 'Allocated Hours', 'Created On'];
     this.fileService.generateReport('Project Allocation', headers, pdfData, "project-allocation-report", 'Project Allocation Report', true);
     this.blockUI.stop();
   }

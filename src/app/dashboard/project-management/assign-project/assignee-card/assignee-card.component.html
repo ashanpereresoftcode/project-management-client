@@ -7,9 +7,10 @@
         <div class="content">
             <div>
                 <h5>{{assignedProject?.project?.projectName}}</h5>
-                <h5>From Date : {{assignedProject?.toDate}}</h5>
-                <h5>To Date : {{assignedProject?.fromDate}}</h5>
-                <a>Assinee : {{selectedUser?.firstName}} {{selectedUser?.lastName}}</a>
+                <h5>From Date : {{assignedProject?.toDate |date:'mediumDate'}}</h5>
+                <h5>To Date : {{assignedProject?.fromDate |date:'mediumDate'}}</h5>
+                <h5>Allocation : {{assignedProject?.allocationHours}}</h5>
+                <h5>Assinee : {{selectedUser?.firstName}} {{selectedUser?.lastName}}</h5>
             </div>
             <div>
                 <button mat-icon-button (click)="onEditClick(assignedProject)">

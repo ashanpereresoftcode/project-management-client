@@ -21,7 +21,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
 
 import { ProjectManagementComponent } from './project-management.component';
 import { ViewProjectsComponent } from './view-projects/view-projects.component';
@@ -37,6 +40,8 @@ import { AssignProjectActionComponent } from './assign-project/cell-renderers/as
 import { AssignedProjectsReportComponent } from './assign-project/assigned-projects-report/assigned-projects-report.component';
 import { MatNativeDateModule } from '@angular/material/core';
 import { AssigneeCardComponent } from './assign-project/assignee-card/assignee-card.component';
+import { FromDateComponent } from './assign-project/cell-renderers/from-date/from-date.component';
+import { ToDateComponent } from './assign-project/cell-renderers/to-date/to-date.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +57,8 @@ import { AssigneeCardComponent } from './assign-project/assignee-card/assignee-c
     AssignProjectActionComponent,
     AssignedProjectsReportComponent,
     AssigneeCardComponent,
+    FromDateComponent,
+    ToDateComponent,
   ],
   imports: [
     CommonModule,
@@ -80,8 +87,9 @@ import { AssigneeCardComponent } from './assign-project/assignee-card/assignee-c
     MatDatepickerModule,
     MatNativeDateModule,
     PerfectScrollbarModule,
-
-    
+    MatPaginatorModule,
+    MatTableModule,
+    MatSortModule,
   ]
 })
 

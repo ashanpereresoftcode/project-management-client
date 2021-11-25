@@ -31,25 +31,25 @@ export class ViewProjectsComponent implements OnInit, OnDestroy {
     this.columnDefs = [
       {
         field: 'projectName',
-        headerName: 'Resource Name',
+        headerName: 'Project Name',
         suppressAutoSize: true,
         width: 150
       },
       {
         field: 'projectCode',
-        headerName: 'Resource Code',
+        headerName: 'Project Code',
         suppressAutoSize: true,
         width: 150
       },
       {
         field: 'projectDescription',
-        headerName: 'Resource Description',
+        headerName: 'Project Description',
         width: 120,
         suppressAutoSize: true,
       },
       {
         field: 'projectStatus',
-        headerName: 'Resource Status',
+        headerName: 'Project Status',
         suppressAutoSize: true,
         width: 100
       },
