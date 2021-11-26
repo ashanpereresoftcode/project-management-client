@@ -1,6 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { ColDef, GridApi, GridOptions } from "ag-grid-community";
 import { MatDialog } from '@angular/material/dialog';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 import { CreateAssessmentComponent } from '../create-assessment/create-assessment.component';
 import { SkillCellRendererComponent } from '../skill-cell-renderer/skill-cell-renderer.component';
 import { SkillAssessmentService } from '../../../shared/services';
@@ -11,7 +13,12 @@ import { Subscription } from 'rxjs';
   templateUrl: './view-assessments.component.html',
   styleUrls: ['./view-assessments.component.scss']
 })
-export class ViewAssessmentsComponent implements OnInit, OnDestroy {
+export class ViewAssessmentsComponent implements OnInit, AfterViewInit, OnDestroy {
+
+  displayedColumns: string[] = ['skill-name', 'skill-code', 'description', 'action'];
+  dataSource: any = new MatTableDataSource<any>();
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   gridApi!: GridApi;
   gridColumnApi: any;
@@ -60,10 +67,15 @@ export class ViewAssessmentsComponent implements OnInit, OnDestroy {
     this.skillDeleteListener();
   }
 
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+  }
+
   loadSkillData = () => {
     this.skillAssessmentService.getAllSkills().subscribe(serviceResult => {
       if (serviceResult && serviceResult.validity) {
         this.rowData = serviceResult.result;
+        this.dataSource.data = this.rowData;
       }
     }, error => {
       console.log(error);

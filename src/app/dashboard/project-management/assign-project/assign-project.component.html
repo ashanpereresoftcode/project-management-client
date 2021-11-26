@@ -96,7 +96,7 @@
         </ng-container>
 
         <ng-container matColumnDef="expandedDetail">
-            <td colspan="6" mat-cell *matCellDef="let element" [ngClass]="{'rm-border-bottom': !element?.expanded}">
+            <td colspan="7" mat-cell *matCellDef="let element" [ngClass]="{'rm-border-bottom': !element?.expanded}">
                 <div class="element-detail p-1 {{element?.expanded ? 'expanded' : 'collapsed'}}"
                     [@detailExpand]="element?.expanded ? 'expanded' : 'collapsed'">
                     <table mat-table [dataSource]="element?.assignedProjects" class="sub-table">
