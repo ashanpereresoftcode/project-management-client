@@ -1,0 +1,42 @@
+.outer-div {
+    height: auto !important;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 3px !important;
+}
+
+.button-bar {
+    margin-bottom: 1rem;
+}
+
+.grid-wrapper {
+    flex: 1 1 auto;
+}
+
+.mat-column-demo-weight {
+    font-style: italic;
+}
+
+.mat-column-demo-symbol {
+    width: 32px;
+    text-align: center;
+    font-weight: bold;
+}
+
+table {
+    width: 100%;
+
+    tr {
+        td {
+            font-size: 15px !important;
+        }
+    }
+}
+
+.header {
+    padding: 5px;
+}
+
+.filter {
+    display: block;
+}

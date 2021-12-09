@@ -1,63 +1,38 @@
-<!-- {{projects |json}} -->
-
 <div class="flex">
     <div class="flex justify-between w-full">
         <span class="text-3xl uppercase">Allocated Resources</span>
-        <!-- <button mat-raised-button (click)="openModal()">
-            <mat-icon>add</mat-icon>
-            <span class="text-xl">Add Project</span>
-        </button> -->
+        <button mat-icon-button (click)="closeModal()">
+            <mat-icon>close</mat-icon>
+        </button>
     </div>
 </div>
 
-<!-- <div class="outer-div pt-8">
-    <div class="grid-wrapper w-full">
-        <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-material"
-            [columnDefs]="columnDefs" [defaultColDef]="defaultColDef" [rowData]="rowData"
-            (gridReady)="onGridReady($event)">
-        </ag-grid-angular>
-    </div>
-</div> -->
-
 <div class="outer-div pt-8">
     <div class="mb-7 w-full mat-elevation-z3">
-        <!-- <table mat-table [dataSource]="dataSource" multiTemplateDataRows>
-            <ng-container matColumnDef="project-name">
+        <table mat-table [dataSource]="dataSource" multiTemplateDataRows>
+            <ng-container matColumnDef="first-name">
                 <th mat-header-cell *matHeaderCellDef>
-                    Project Name
+                    First Name
                 </th>
-                <td style="width: 25%;" mat-cell *matCellDef="let element"
-                    [ngClass]="{'add-border-top': element?.expanded}">
-                    <span> {{element.projectName}} </span>
+                <td style="width: 25%;" mat-cell *matCellDef="let element">
+                    <span> {{element.firstName}} </span>
                 </td>
             </ng-container>
-            <ng-container matColumnDef="project-code">
-                <th mat-header-cell *matHeaderCellDef> Project Code </th>
-                <td style="width: 25%;" mat-cell *matCellDef="let element"
-                    [ngClass]="{'add-border-top': element?.expanded}">
-                    <span> {{element.projectCode}} </span>
+            <ng-container matColumnDef="last-name">
+                <th mat-header-cell *matHeaderCellDef> Last Name </th>
+                <td style="width: 25%;" mat-cell *matCellDef="let element">
+                    <span> {{element.lastName}} </span>
                 </td>
             </ng-container>
-            <ng-container matColumnDef="project-description">
-                <th mat-header-cell *matHeaderCellDef> Description </th>
-                <td style="width: 25%;" mat-cell *matCellDef="let element"
-                    [ngClass]="{'add-border-top': element?.expanded}">
-                    <span> {{element.description}} </span>
+            <ng-container matColumnDef="designation">
+                <th mat-header-cell *matHeaderCellDef> Designation </th>
+                <td style="width: 25%;" mat-cell *matCellDef="let element">
+                    <span> {{element.designation}} </span>
                 </td>
             </ng-container>
-
-            <ng-container matColumnDef="action">
-                <th mat-header-cell *matHeaderCellDef> Actions </th>
-                <td mat-cell *matCellDef="let element" [ngClass]="{'add-border-top': element?.expanded}">
-                    <div class="flex">
-                        <app-project-action-cell-rederer [project]="element"></app-project-action-cell-rederer>
-                    </div>
-                </td>
-            </ng-container>
-
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table> -->
+        </table>
         <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
             aria-label="Select page of periodic elements">
         </mat-paginator>
