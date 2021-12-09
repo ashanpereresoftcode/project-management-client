@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, AfterViewInit } from '@angular/core';
 import { ColDef, GridApi, GridOptions } from "ag-grid-community";
 import { MatDialog } from '@angular/material/dialog';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
@@ -6,60 +6,34 @@ import { CreateProjectComponent } from '../create-project/create-project.compone
 import { ProjectActionCellRedererComponent } from '../project-action-cell-rederer/project-action-cell-rederer.component';
 import { ProjectManagementService } from '../../../shared/services';
 import { Subscription } from 'rxjs';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-view-projects',
   templateUrl: './view-projects.component.html',
   styleUrls: ['./view-projects.component.scss']
 })
-export class ViewProjectsComponent implements OnInit, OnDestroy {
+export class ViewProjectsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @BlockUI() blockUI!: NgBlockUI;
 
-  gridApi!: GridApi;
-  gridColumnApi: any;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  displayedColumns: string[] = ['project-name', 'project-code', 'project-description', 'action'];
+  dataSource: any = new MatTableDataSource<any>();
 
-  columnDefs: ColDef[];
-  defaultColDef: ColDef;
-  rowData: any[] = [];
-  gridOption!: GridOptions;
+  // gridApi!: GridApi;
+  // gridColumnApi: any;
+
+  // columnDefs: ColDef[];
+  // defaultColDef: ColDef;
+  projectData: any[] = [];
+  // gridOption!: GridOptions;
   projectSubscriptions: Subscription[] = [];
 
   constructor(
     public dialog: MatDialog,
     private projectManagementService: ProjectManagementService) {
-    this.columnDefs = [
-      {
-        field: 'projectName',
-        headerName: 'Project Name',
-        suppressAutoSize: true,
-        width: 150
-      },
-      {
-        field: 'projectCode',
-        headerName: 'Project Code',
-        suppressAutoSize: true,
-        width: 150
-      },
-      {
-        field: 'projectDescription',
-        headerName: 'Project Description',
-        width: 120,
-        suppressAutoSize: true,
-      },
-      {
-        field: 'projectStatus',
-        headerName: 'Project Status',
-        suppressAutoSize: true,
-        width: 100
-      },
-      {
-        headerName: 'Actions',
-        width: 100,
-        cellRendererFramework: ProjectActionCellRedererComponent
-      }
-    ];
-    this.defaultColDef = { resizable: true };
   }
 
   ngOnInit(): void {
@@ -68,11 +42,15 @@ export class ViewProjectsComponent implements OnInit, OnDestroy {
     this.projectDeleteListener();
   }
 
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+  }
+
   projectDataLoad = () => {
     this.blockUI.start('Fetching ......');
     this.projectSubscriptions.push(this.projectManagementService.getAllProjects().subscribe(projectData => {
       if (projectData && projectData.validity) {
-        this.rowData = projectData.result;
+        this.dataSource.data = projectData.result;
       }
       const t = setTimeout(() => {
         this.blockUI.stop();
@@ -88,12 +66,12 @@ export class ViewProjectsComponent implements OnInit, OnDestroy {
     this.projectSubscriptions.push(this.projectManagementService.afterSave.subscribe(result => {
       if (result) {
         if (result && result.isEditMode) {
-          const index = this.rowData.findIndex(x => x._id === result.project._id);
-          this.rowData[index] = result.project;
-          this.gridApi.setRowData(this.rowData);
+          const index = this.projectData.findIndex(x => x._id === result.project._id);
+          this.projectData[index] = result.project;
+          // this.gridApi.setRowData(this.rowData);
         } else {
-          this.rowData.unshift(result);
-          this.gridApi.setRowData(this.rowData);
+          this.projectData.unshift(result);
+          // this.gridApi.setRowData(this.rowData);
         }
       }
     }))
@@ -103,22 +81,22 @@ export class ViewProjectsComponent implements OnInit, OnDestroy {
     this.projectSubscriptions.push(this.projectManagementService.afterDelete.subscribe(result => {
       if (result && result.deleted) {
         const id = result.projectIds[0];
-        const index = this.rowData.findIndex(x => x._id === id);
-        this.rowData.splice(index, 1);
-        this.gridApi.setRowData(this.rowData);
+        const index = this.projectData.findIndex(x => x._id === id);
+        this.projectData.splice(index, 1);
+        // this.gridApi.setRowData(this.rowData);
       }
     }))
   }
 
-  sizeToFit = () => {
-    this.gridApi.sizeColumnsToFit();
-  }
+  // sizeToFit = () => {
+  //   this.gridApi.sizeColumnsToFit();
+  // }
 
-  onGridReady = (params: any) => {
-    this.gridApi = params.api;
-    this.gridColumnApi = params.columnApi;
-    this.sizeToFit();
-  }
+  // onGridReady = (params: any) => {
+  //   this.gridApi = params.api;
+  //   this.gridColumnApi = params.columnApi;
+  //   this.sizeToFit();
+  // }
 
   openModal = () => {
     this.dialog.open(CreateProjectComponent, {

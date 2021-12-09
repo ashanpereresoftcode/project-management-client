@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { ICellRendererParams } from "ag-grid-community";
 import { MatDialog } from '@angular/material/dialog';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { CreateProjectComponent } from '../create-project/create-project.component';
 import { ProjectManagementService } from '../../../shared/services';
+import { ProjectResourceAllocationComponent } from '../project-resource-allocation/project-resource-allocation.component';
 
 @Component({
   selector: 'app-project-action-cell-rederer',
@@ -13,7 +14,9 @@ import { ProjectManagementService } from '../../../shared/services';
   styleUrls: ['./project-action-cell-rederer.component.scss']
 })
 export class ProjectActionCellRedererComponent implements OnInit, OnDestroy {
-  data: any;
+
+  @Input() project: any;
+
   @BlockUI() blockUI!: NgBlockUI;
 
   projectSubscriptions: Subscription[] = [];
@@ -27,16 +30,6 @@ export class ProjectActionCellRedererComponent implements OnInit, OnDestroy {
   ngOnInit = () => {
   }
 
-  agInit(params: ICellRendererParams): void {
-    if (params && params.data) {
-      this.data = params.data;
-    }
-  }
-
-  refresh(params: ICellRendererParams) {
-    this.data = this.getValueToDisplay(params);
-  }
-
   getValueToDisplay(params: ICellRendererParams) {
     return params.valueFormatted ? params.valueFormatted : params.value;
   }
@@ -45,13 +38,13 @@ export class ProjectActionCellRedererComponent implements OnInit, OnDestroy {
     this.dialog.open(CreateProjectComponent, {
       width: '50%',
       height: 'auto',
-      data: { project: this.data }
+      data: { project: this.project }
     });
   }
 
   deleteProject = () => {
     this.blockUI.start('Deleting....');
-    const appIds: string[] = [].concat(this.data._id);
+    const appIds: string[] = [].concat(this.project._id);
     if (appIds && appIds.length > 0) {
       this.proceedDelete(appIds);
     } else {
@@ -74,6 +67,14 @@ export class ProjectActionCellRedererComponent implements OnInit, OnDestroy {
       this.toastrService.error('Failed to delete', 'Error');
       this.blockUI.stop();
     }));
+  }
+
+  viewProject = () => {
+    this.dialog.open(ProjectResourceAllocationComponent, {
+      width: '50%',
+      height: '80%',
+      data: { project: this.project }
+    });
   }
 
   ngOnDestroy() {

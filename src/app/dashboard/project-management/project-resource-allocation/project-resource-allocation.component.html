@@ -1,10 +1,12 @@
+<!-- {{projects |json}} -->
+
 <div class="flex">
     <div class="flex justify-between w-full">
-        <span class="text-3xl uppercase">Projects</span>
-        <button mat-raised-button (click)="openModal()">
+        <span class="text-3xl uppercase">Allocated Resources</span>
+        <!-- <button mat-raised-button (click)="openModal()">
             <mat-icon>add</mat-icon>
             <span class="text-xl">Add Project</span>
-        </button>
+        </button> -->
     </div>
 </div>
 
@@ -19,7 +21,7 @@
 
 <div class="outer-div pt-8">
     <div class="mb-7 w-full mat-elevation-z3">
-        <table mat-table [dataSource]="dataSource" multiTemplateDataRows>
+        <!-- <table mat-table [dataSource]="dataSource" multiTemplateDataRows>
             <ng-container matColumnDef="project-name">
                 <th mat-header-cell *matHeaderCellDef>
                     Project Name
@@ -55,7 +57,7 @@
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
+        </table> -->
         <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
             aria-label="Select page of periodic elements">
         </mat-paginator>

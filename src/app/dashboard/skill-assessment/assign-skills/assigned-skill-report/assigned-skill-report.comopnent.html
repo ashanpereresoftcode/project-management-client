@@ -8,7 +8,7 @@
 
 <figure class="p-8">
     <div class="flex justify-start">
-        <img src="../../../../assets/ashan.jpg" alt="profile" class="rounded-full w-40 h-40">
+        <img [src]="user?.profilePic" alt="profile" class="rounded-full w-40 h-40">
         <div class="pl-5 pt-6 text-left">
             <blockquote>
                 <div class="font-bold">{{ user?.firstName }} {{ user?.lastName }}</div>

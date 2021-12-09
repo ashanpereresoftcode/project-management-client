@@ -15,50 +15,15 @@ import { Subscription } from 'rxjs';
 })
 export class ViewAssessmentsComponent implements OnInit, AfterViewInit, OnDestroy {
 
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   displayedColumns: string[] = ['skill-name', 'skill-code', 'description', 'action'];
   dataSource: any = new MatTableDataSource<any>();
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-
-  gridApi!: GridApi;
-  gridColumnApi: any;
-
-  columnDefs!: ColDef[];
-  defaultColDef!: ColDef;
-  rowData: any[] = [];
-  gridOption!: GridOptions;
   skillSubscriptions: Subscription[] = [];
 
   constructor(
     public dialog: MatDialog,
     private skillAssessmentService: SkillAssessmentService) {
-
-    this.columnDefs = [
-      {
-        field: 'skillName',
-        headerName: 'Skill Name',
-        suppressAutoSize: true,
-        width: 150
-      },
-      {
-        field: 'skillCode',
-        headerName: 'Skill Code',
-        suppressAutoSize: true,
-        width: 150
-      },
-      {
-        field: 'description',
-        headerName: 'Description',
-        width: 120,
-        suppressAutoSize: true,
-      },
-      {
-        headerName: 'Actions',
-        width: 100,
-        cellRendererFramework: SkillCellRendererComponent
-      }
-    ];
-    this.defaultColDef = { resizable: true };
   }
 
   ngOnInit(): void {
@@ -74,8 +39,7 @@ export class ViewAssessmentsComponent implements OnInit, AfterViewInit, OnDestro
   loadSkillData = () => {
     this.skillAssessmentService.getAllSkills().subscribe(serviceResult => {
       if (serviceResult && serviceResult.validity) {
-        this.rowData = serviceResult.result;
-        this.dataSource.data = this.rowData;
+        this.dataSource.data = serviceResult.result;
       }
     }, error => {
       console.log(error);
@@ -85,14 +49,7 @@ export class ViewAssessmentsComponent implements OnInit, AfterViewInit, OnDestro
   skillCreateListener = () => {
     this.skillSubscriptions.push(this.skillAssessmentService.afterSave.subscribe(result => {
       if (result) {
-        if (result && result.isEditMode) {
-          const index = this.rowData.findIndex(x => x._id === result.skill._id);
-          this.rowData[index] = result.skill;
-          this.gridApi.setRowData(this.rowData);
-        } else {
-          this.rowData.unshift(result);
-          this.gridApi.setRowData(this.rowData);
-        }
+        this.loadSkillData();
       }
     }))
   }
@@ -100,10 +57,7 @@ export class ViewAssessmentsComponent implements OnInit, AfterViewInit, OnDestro
   skillDeleteListener = () => {
     this.skillSubscriptions.push(this.skillAssessmentService.afterDelete.subscribe(result => {
       if (result) {
-        const id = result.skillIds[0];
-        const index = this.rowData.findIndex(x => x._id === id);
-        this.rowData.splice(index, 1);
-        this.gridApi.setRowData(this.rowData);
+        this.loadSkillData();
       }
     }))
   }
@@ -115,16 +69,6 @@ export class ViewAssessmentsComponent implements OnInit, AfterViewInit, OnDestro
       height: 'auto',
       data: null
     });
-  }
-
-  sizeToFit = () => {
-    this.gridApi.sizeColumnsToFit();
-  }
-
-  onGridReady = (params: any) => {
-    this.gridApi = params.api;
-    this.gridColumnApi = params.columnApi;
-    this.sizeToFit();
   }
 
   ngOnDestroy = () => {

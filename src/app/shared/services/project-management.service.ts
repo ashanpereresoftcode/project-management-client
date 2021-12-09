@@ -64,14 +64,19 @@ export class ProjectManagementService {
     return this.httpClient.post(url, projectIds);
   }
 
-  deleteAssignedProjects = (payload: any) => {
+  deleteAssignedProjects = (payload: any): Observable<any> => {
     const url: string = `${this.baseUrl}/api/v1/project-assignment/delete`;
     return this.httpClient.post(url, payload);
   }
 
-  updateAssignedProject = (payload: any) => {
+  updateAssignedProject = (payload: any): Observable<any> => {
     const url: string = `${this.baseUrl}/api/v1/project-assignment/update`;
     return this.httpClient.put(url, payload);
+  }
+
+  getAssignedProjects = (): Observable<any> => {
+    const url: string = `${this.baseUrl}/api/v1/project-assignment/get-all`;
+    return this.httpClient.get(url);
   }
 
 }

@@ -9,7 +9,7 @@
 </div>
 
 <div class="outer-div pt-8">
-    <div class="w-full mat-elevation-z3">
+    <div class="mb-7 w-full mat-elevation-z3">
         <table mat-table [dataSource]="dataSource" multiTemplateDataRows>
             <ng-container matColumnDef="skill-name">
                 <th mat-header-cell *matHeaderCellDef>
@@ -39,7 +39,7 @@
                 <th mat-header-cell *matHeaderCellDef> Actions </th>
                 <td mat-cell *matCellDef="let element" [ngClass]="{'add-border-top': element?.expanded}">
                     <div class="flex">
-                        <app-skill-cell-renderer></app-skill-cell-renderer>
+                        <app-skill-cell-renderer [skill]="element"></app-skill-cell-renderer>
                     </div>
                 </td>
             </ng-container>

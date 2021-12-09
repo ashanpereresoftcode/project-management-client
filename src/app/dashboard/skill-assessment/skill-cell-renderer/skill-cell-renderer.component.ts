@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { ICellRendererParams } from "ag-grid-community";
 import { MatDialog } from '@angular/material/dialog';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
@@ -13,7 +13,7 @@ import { SkillAssessmentService } from '../../../shared/services';
 })
 export class SkillCellRendererComponent implements OnInit, OnDestroy {
 
-  data: any;
+  @Input() skill!: any;
   @BlockUI() blockUI!: NgBlockUI;
 
   skillSubscriptions: Subscription[] = [];
@@ -25,13 +25,13 @@ export class SkillCellRendererComponent implements OnInit, OnDestroy {
   }
 
   agInit(params: ICellRendererParams): void {
-    if (params && params.data) {
-      this.data = params.data;
-    }
+    // if (params && params.data) {
+    //   this.skill = params.data;
+    // }
   }
 
   refresh(params: ICellRendererParams) {
-    this.data = this.getValueToDisplay(params);
+    // this.skill = this.getValueToDisplay(params);
   }
 
   getValueToDisplay(params: ICellRendererParams) {
@@ -42,13 +42,13 @@ export class SkillCellRendererComponent implements OnInit, OnDestroy {
     this.dialog.open(CreateAssessmentComponent, {
       width: '50%',
       height: 'auto',
-      data: { skill: this.data }
+      data: { skill: this.skill }
     });
   }
 
   deleteSkill = () => {
     this.blockUI.start('Deleting....');
-    const appIds: string[] = [].concat(this.data._id);
+    const appIds: string[] = [].concat(this.skill._id);
     if (appIds && appIds.length > 0) {
       this.proceedDelete(appIds);
     } else {

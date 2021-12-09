@@ -23,7 +23,7 @@ export class CreateAssessmentComponent implements OnInit {
   ngOnInit(): void {
     this.initializeForm();
     if (this.data) {
-      this.skill = this.data.skill;
+      this.skill = this.data?.skill;
       this.patchSkillForm();
     }
   }
@@ -33,7 +33,16 @@ export class CreateAssessmentComponent implements OnInit {
       skillName: new FormControl(null, Validators.required),
       skillCode: new FormControl(null, Validators.required),
       description: new FormControl(null),
-    })
+    });
+    this.skillOnchange();
+  }
+
+  skillOnchange = () => {
+    this.skillFormGroup.get('skillName')?.valueChanges.subscribe(res => {
+      if (res) { 
+        debugger
+      }
+    });
   }
 
   patchSkillForm = () => {
@@ -70,7 +79,7 @@ export class CreateAssessmentComponent implements OnInit {
         })
       } else {
         this.skillAssessmentService.createSkill(skill).subscribe(serviceResult => {
-          if (serviceResult && serviceResult.validity) { 
+          if (serviceResult && serviceResult.validity) {
             this.toastrService.success('Successfully saved.', 'Success');
             this.skillAssessmentService.afterSave.emit(skill);
             this.closeModal();

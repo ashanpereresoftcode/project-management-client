@@ -42,6 +42,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { AssigneeCardComponent } from './assign-project/assignee-card/assignee-card.component';
 import { FromDateComponent } from './assign-project/cell-renderers/from-date/from-date.component';
 import { ToDateComponent } from './assign-project/cell-renderers/to-date/to-date.component';
+import { ProjectResourceAllocationComponent } from './project-resource-allocation/project-resource-allocation.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { ToDateComponent } from './assign-project/cell-renderers/to-date/to-date
     AssigneeCardComponent,
     FromDateComponent,
     ToDateComponent,
+    ProjectResourceAllocationComponent,
   ],
   imports: [
     CommonModule,

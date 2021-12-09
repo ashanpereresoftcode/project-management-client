@@ -81,7 +81,7 @@ export class AssignedSkillReportComponent implements OnInit {
       }
     });
     const headers: any[] = ['Skill', 'Rating', 'Rating Card', 'Comments', 'Created On',];
-    this.fileService.generateReport('Test', headers, pdfData, "skill-report", 'Skill Report', true);
+    this.fileService.generateReport('Skill Report', headers, pdfData, "skill-report", this.user, 'Skill Report', true);
   }
 
   getRatingCard = (rate: number): string => {

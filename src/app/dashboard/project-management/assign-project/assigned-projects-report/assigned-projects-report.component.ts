@@ -99,7 +99,7 @@ export class AssignedProjectsReportComponent implements OnInit {
       }
     });
     const headers: any[] = ['Project Name', 'Project Code', 'From Date', 'To Date', 'Allocated Hours', 'Created On'];
-    this.fileService.generateReport('Project Allocation', headers, pdfData, "project-allocation-report", 'Project Allocation Report', true);
+    this.fileService.generateReport('Project Allocation', headers, pdfData, "project-allocation-report", this.user, 'Project Allocation Report', true);
     this.blockUI.stop();
   }
 
