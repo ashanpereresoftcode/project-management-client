@@ -69,6 +69,11 @@ export class SkillAssessmentService {
     return this.httpClient.post(url, project);
   }
 
+  uploadSkills = (uploadedSkills: any[]): Observable<any> => { 
+    const url: string = `${this.baseUrl}/api/v1/skill/create-skills`;
+    return this.httpClient.post(url, uploadedSkills);
+  }
+
   updateSkill = (project: any): Observable<any> => {
     const url: string = `${this.baseUrl}/api/v1/skill/update`;
     return this.httpClient.put(url, project);

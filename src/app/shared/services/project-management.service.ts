@@ -49,6 +49,11 @@ export class ProjectManagementService {
     return this.httpClient.post(url, project);
   }
 
+  uploadProjects = (projects: any): Observable<any> => {
+    const url: string = `${this.baseUrl}/api/v1/project/create-projects`;
+    return this.httpClient.post(url, projects);
+  }
+
   assignProject = (assignedProject: any): Observable<any> => {
     const url: string = `${this.baseUrl}/api/v1/project-assignment/create`;
     return this.httpClient.post(url, assignedProject)

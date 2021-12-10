@@ -1,10 +1,20 @@
 <div class="flex">
     <div class="flex justify-between w-full">
         <span class="text-3xl uppercase">Skill Details</span>
-        <button mat-raised-button (click)="openModal()">
-            <mat-icon>add</mat-icon>
-            <span class="text-xl">Add Skill</span>
-        </button>
+
+        <div class="flex">
+            <button mat-raised-button (click)="openModal()">
+                <mat-icon>add</mat-icon>
+                <span class="text-xl">Add Skill</span>
+            </button>
+            <button class="ml-1" mat-raised-button (click)="fileUpload.click()">
+                <mat-icon class="mr-1">backup</mat-icon>
+                <span class="text-xl">Upload Skills</span>
+            </button>
+            <input type="file" class="file-input"
+                accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                (change)="onFileSelected($event)" #fileUpload>
+        </div>
     </div>
 </div>
 

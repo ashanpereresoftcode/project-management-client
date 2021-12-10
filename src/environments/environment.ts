@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  // baseUrl: `http://localhost:3001`,
-  baseUrl: `https://pm-server-side.herokuapp.com`,
+  baseUrl: `http://localhost:3001`,
+  // baseUrl: `https://pm-server-side.herokuapp.com`,
 };
 
 /*
